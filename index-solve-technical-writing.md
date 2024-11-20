@@ -4,7 +4,6 @@
 
 ```java
 public class IndexPerformanceTest {
-
     private static final String BASE_URI = "http://localhost:8080";  
     private static final Long MIN_COUPON_ID = 1L;  
     private static final Long MAX_COUPON_ID = 351160L;  
@@ -80,9 +79,10 @@ public class IndexPerformanceTest {
 ```java
 @Test  
 void 쿠폰의_발급_수량_조회() throws InterruptedException {  
-AtomicBoolean running = new AtomicBoolean(false);  
-AtomicInteger requestCount = new AtomicInteger(0);  
-AtomicLong totalElapsedTime = new AtomicLong(0);
+
+    AtomicBoolean running = new AtomicBoolean(false);  
+    AtomicInteger requestCount = new AtomicInteger(0);  
+    AtomicLong totalElapsedTime = new AtomicLong(0);
 
     int statusCode = RestAssured.get("/coupons/" + ThreadLocalRandom.current()  
             .nextLong(MIN_COUPON_ID, MAX_COUPON_ID + 1) + "/issued-count").statusCode();  
@@ -450,7 +450,7 @@ ALTER TABLE member_coupon DROP INDEX FKkxw7ja7v55gk4a368w3gs6s0j;
 보다시피 인덱스를 제거하고 explain으로 실행 계획을 살펴보니 type이 ALL, key는 null로 표시됩니다. type으로 ALL은 테이블의 전체 데이터에 접근했다는 것을 의미합니다. 결과적으로 평균 경과 시간이 100ms를 초과했기 때문에 검증에 실패합니다.
 
 ```java
-Total request count: 913 
+Total request count: 913
 Total elapsed time: 100258ms
 Average elapsed time: 109ms
 ```
@@ -512,6 +512,7 @@ public Long findUsedCouponCount(Long couponId) {
 // MemberCouponRepository.class
 Long countByCoupon_IdAndUsed(Long couponId, boolean used);
 ```
+
 ```sql
 select count(*)
 from member_coupon mc
@@ -528,6 +529,7 @@ show index from member_coupon;
 ```
 
 ![[Pasted image 20240830010640.png]](image/Pasted image 20240830010640.png)
+
 
 | # | Table        | Non_unique | Key_name                        | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible |
 |---|--------------|------------|---------------------------------|---------------|-------------|-----------|-------------|----------|--------|------|-------------|---------|----------------|---------|
